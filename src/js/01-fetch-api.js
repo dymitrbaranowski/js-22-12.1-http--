@@ -14,8 +14,14 @@
  */
 
 import '../css/common.css';
-import pokemonCardTpl from '../templates/pokemon-card.hbs';
+// import Handlebars from 'handlebars';
+// const template = Handlebars.compile('Name: {{name}}');
+// console.log(template({ name: 'Nils' }));
+// import pokemonCardTpl from '../templates/pokemon-card.hbs';
 
+const refs = {
+  cardContainer: document.querySelector('.js-card-container'),
+};
 fetch('https://pokeapi.co/api/v2/pokemon')
   .then(response => {
     return response.json();
@@ -28,6 +34,29 @@ fetch('https://pokeapi.co/api/v2/pokemon')
   .catch(error => {
     console.log(error);
   });
+
+function pokemonCardTpl() {
+  let markup = '';
+
+  markup = `<div class="card">
+  <div class="card-img-top">
+    <img src="{{sprites.front_default}}" alt="{{name}}">
+  </div>
+  <div class="card-body">
+    <h2 class="card-title">Имя: {{name}}</h2>
+    <p class="card-text">Вес: {{weight}}</p>
+    <p class="card-text">Рост: {{height}}</p>
+
+    <p class="card-text"><b>Умения</b></p>
+    <ul class="list-group"></ul>
+    {{#each abilities}}
+      <li class="list-group-item">{{ability.name}}</li>
+    {{/each}}
+    </ul>
+  </div>
+</div>`;
+}
+return markup;
 
 // import API from './api-service';
 // import getRefs from './get-refs';
